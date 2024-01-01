@@ -51,8 +51,13 @@ if selected_option:
     nb_jobs = len(df_jobs_with_co2)
 
     mean_jobs_per_run = len(df_jobs_with_co2) // len(df_jobs_with_co2['run_id'].unique())
+
     mean_co2_byrun = np.mean(df_jobs_with_co2['co2_emission'])
+    mean_co2_byrun = "{:.5f}".format(mean_co2_byrun)
+
     mean_duration = np.mean(df_jobs_with_co2['duration'])
+    mean_duration = 60 * mean_duration #to get minutes
+    mean_duration = "{:.3f}".format(mean_duration)
 
 
     col1, col2 = st.columns(2)
@@ -63,8 +68,8 @@ if selected_option:
         st.write(f'Number of Runs : {nb_runs}')
         st.write(f'Number of Jobs : {nb_jobs}')
         st.write(f'Mean Number of Jobs per Run : {mean_jobs_per_run}')
-        st.write(f'Mean Carbon Emission by Run : {mean_co2_byrun}')
-        st.write(f'Mean Run Duration : {mean_duration}')
+        st.write(f'Mean Carbon Emission by Run : {mean_co2_byrun} KgEqCO2')
+        st.write(f'Mean Run Duration : {mean_duration} minutes')
 
 
     with col2:
@@ -80,7 +85,10 @@ if selected_option:
         ax.set_ylabel('Co2 Emission')
         st.pyplot(fig)
 
+
     st.markdown("<hr>", unsafe_allow_html=True)
+  
+    col1, col2 = st.columns(2)
 
     with col1:
         st.write(f"**Run status distribution**")
@@ -103,7 +111,7 @@ if selected_option:
         ax.set_ylabel('Density')
         st.pyplot(fig)
 
-    runners = np.where(len(df_jobs_with_co2['labels'])>0).split('-')[0]
+    runners = np.where(len(df_jobs_with_co2['labels'])>0).apply(lambda x: x.split('-'))[0]
     
     fig, ax = plt.subplots()
     sns.set(style="whitegrid")
