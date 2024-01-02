@@ -15,76 +15,59 @@ custom_css = """
 st.markdown(f'<style>{custom_css}</style>', unsafe_allow_html=True)
 
 st.title("Carbon Emissions from Cloud Computing")
-st.write("Hello, this is a Streamlit app for our Data Mining Project")
-st.write("We are two students of the M2 - D3S at TSE")
+st.write("Hello, this is a Streamlit app for our Data Mining Project for our Masters 2 Diploma at TSE.")
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
 # SideBar Configuration
 
 st.sidebar.image('images_app/TSE_Logo_2019.png', width=300)
+st.sidebar.markdown("""
+Benjamin Rocheteau - Théo Bacqueyrisse
+""")
 
-st.sidebar.write('Choose a GitHub Repository :')
+st.sidebar.markdown("""
+**Choose a GitHub Repository :**
+""")
 
 options = ['Numpy', 'Pandas', 'Tidyverse']
 selected_option = st.sidebar.selectbox('Sélectionnez une option', options)
 
 
-# if selected_option == 'Numpy':
-#   df_jobs_with_co2 = pd.read_csv('/content/cloud_computing_emissions/0_Data/tidyverse_data.csv')
-
-# if selected_option == 'Pandas':
-#   df_jobs_with_co2 = pd.read_csv('/content/cloud_computing_emissions/0_Data/tidyverse_data.csv')
-
-# if selected_option == 'Tidyverse':
-#   df_jobs_with_co2 = pd.read_csv('/content/cloud_computing_emissions/0_Data/tidyverse_data.csv')
-
 if selected_option:
 
   if selected_option == 'Tidyverse':
-    df_jobs_with_co2 = pd.read_csv('/content/cloud_computing_emissions/0_Data/tidyverse_data.csv')
+    # Load the Data
+    df = pd.read_csv('/content/drive/MyDrive/Data Mining Data/tidyverse_data_with_Co2.csv')
 
-    sum_em_repo = df_jobs_with_co2['co2_emission'].sum()
+    # Parameters to plot
+    sum_em_repo = df['co2_emission'].sum()
     sum_em_repo = "{:.3f}".format(sum_em_repo)
 
-    nb_runs = len(df_jobs_with_co2['run_id'].unique())
-    nb_jobs = len(df_jobs_with_co2)
+    nb_runs = len(df['run_id'].unique())
+    nb_jobs = len(df)
 
-    mean_jobs_per_run = len(df_jobs_with_co2) // len(df_jobs_with_co2['run_id'].unique())
+    mean_jobs_per_run = len(df) // len(df['run_id'].unique())
 
-    mean_co2_byrun = np.mean(df_jobs_with_co2['co2_emission'])
+    mean_co2_byrun = np.mean(df['co2_emission'])
     mean_co2_byrun = "{:.5f}".format(mean_co2_byrun)
 
-    mean_duration = np.mean(df_jobs_with_co2['duration'])
+    mean_duration = np.mean(df['duration'])
     mean_duration = 60 * mean_duration #to get minutes
     mean_duration = "{:.3f}".format(mean_duration)
 
 
-    col1, col2 = st.columns(2)
+    st.write(f"**Global KPI for the {selected_option} repository**")
+    st.markdown(f"""
+      - Number of Runs : {nb_runs}
+      - Number of Jobs : {nb_jobs}
+      - Mean Number of Jobs per Run : {mean_jobs_per_run}
+      - Mean Carbon Emission by Run : {mean_co2_byrun} KgEqCO2
+      - Mean Run Duration : {mean_duration} minutes
+    """)
 
-    with col1:
-        st.write(f"**Global KPI for the {selected_option} repository**")
-        st.write(f'Total Co2 emissions : {sum_em_repo}') 
-        st.write(f'Number of Runs : {nb_runs}')
-        st.write(f'Number of Jobs : {nb_jobs}')
-        st.write(f'Mean Number of Jobs per Run : {mean_jobs_per_run}')
-        st.write(f'Mean Carbon Emission by Run : {mean_co2_byrun} KgEqCO2')
-        st.write(f'Mean Run Duration : {mean_duration} minutes')
-
-
-    with col2:
-        st.write(f"**Carbon Emissions across time**")
-
-        x = df_jobs_with_co2['started_at']
-        y = df_jobs_with_co2['co2_emission']
-
-        sns.set_style("whitegrid")
-        fig, ax = plt.subplots()
-        ax.plot(x, y)
-        ax.set_xlabel('Date')
-        ax.set_ylabel('Co2 Emission')
-        st.pyplot(fig)
-
+    st.markdown("""**Here is the evolution of Carbon emissions across time for Tidyverse**""")
+    st.line_chart(data = df, x = None, y = 'co2_emission', color='#FFFFFF', width=150, height=400, use_container_width=True)
 
     st.markdown("<hr>", unsafe_allow_html=True)
   
@@ -93,28 +76,21 @@ if selected_option:
     with col1:
         st.write(f"**Run status distribution**")
 
-        sns.set(style="whitegrid")
-        fig, ax = plt.subplots()
-        ax = sns.barplot(x=df_jobs_with_co2['conclusion'].unique(), y=df_jobs_with_co2['conclusion'].value_counts())
-        ax.set_xlabel('Status of Runs')
-        ax.set_ylabel('Count')
-        st.pyplot(fig)
+        value_counts = df['conclusion'].value_counts().reset_index()
+        value_counts.columns = ['Value', 'Count']
 
+        st.bar_chart(data=value_counts, x='Count', y='Value', color='#FF7F7F', width=150, height=400, use_container_width=True)
 
-    with col2:
-        st.write(f"**Duration Variable Distribution**")
+        
+    st.write(f"**Duration Variable Distribution**")
 
-        sns.set_style("whitegrid")
-        fig, ax = plt.subplots()
-        sns.kdeplot(df_jobs_with_co2['duration'], shade=True, ax=ax)
-        ax.set_xlabel('Duration')
-        ax.set_ylabel('Density')
-        st.pyplot(fig)
+    st.area_chart(data = df, x = None, y = 'duration', color='#FF7F7F', width=150, height=400, use_container_width=True)
+    st.line_chart(data = df, x = None, y = 'co2_emission', color='#000000', width=150, height=400, use_container_width=True)
 
-    runners = np.where(len(df_jobs_with_co2['labels'])>0).apply(lambda x: x.split('-'))[0]
+    runners = np.where(len(df['labels'])>0).apply(lambda x: x.split('-'))[0]
     
     fig, ax = plt.subplots()
     sns.set(style="whitegrid")
-    sns.barplot(x=df_jobs_with_co2['labels'], y='Category', data=df, ax=ax)
+    sns.barplot(x=df['labels'], y='Category', data=df, ax=ax)
     ax.set_title('Horizontal Bar Plot Example')
     st.pyplot(fig)
