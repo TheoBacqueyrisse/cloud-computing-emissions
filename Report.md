@@ -3,11 +3,11 @@ Project 10: Continuous Integration Carbon Footprint - Théo Bacqueyrisse & Benja
 
 ## Table of Contents
 
-1. [Introduction](introduction)
-2. [GitHub API](github_api)
-3. [Climatiq API](climatiq_api)
-4. [The Code](the_code)
-5. [The App](the_app)
+1. [Introduction](#introduction)
+2. [GitHub API](#github_api)
+3. [Climatiq API](#climatiq_api)
+4. [The Code](#the_code)
+5. [The App](#the_app)
 
 ## Introduction
 
