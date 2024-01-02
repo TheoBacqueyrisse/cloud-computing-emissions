@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import plotly.express as px
 import seaborn as sns
 import streamlit as st
 
@@ -36,6 +37,9 @@ selected_option = st.sidebar.selectbox('Sélectionnez une option', options)
 
 if selected_option:
 
+  st.markdown(f"## Chosen Repository : {selected_option}", unsafe_allow_html=True)
+
+
   if selected_option == 'Tidyverse':
     # Load the Data
     df = pd.read_csv('/content/drive/MyDrive/Data Mining Data/tidyverse_data_with_Co2.csv')
@@ -56,6 +60,14 @@ if selected_option:
     mean_duration = 60 * mean_duration #to get minutes
     mean_duration = "{:.3f}".format(mean_duration)
 
+    runners = df['labels']
+    runners = [runners[i].split('-')[0][2:] for i in range(len(runners))]  
+    df_runners = pd.DataFrame()
+    df_runners['runners'] = runners
+    df_runners['runners'] = [str.lower(df_runners['runners'][i]) for i in range(len(df_runners))] 
+    value_counts = df_runners['runners'].value_counts().reset_index()
+    value_counts.columns = ['Valeur', 'Comptage']
+
 
     st.write(f"**Global KPI for the {selected_option} repository**")
     st.markdown(f"""
@@ -74,18 +86,23 @@ if selected_option:
     col1, col2 = st.columns(2)
 
     with col1:
-        st.write(f"**Run status distribution**")
+      st.write(f"**Run status distribution**")
 
-        value_counts = df['conclusion'].value_counts().reset_index()
-        value_counts.columns = ['Value', 'Count']
+      custom_labels = ['Ubuntu', 'None', 'Windows', 'macOS']
+      custom_colors = ['#fadba7', '#5598a6', '#9ebf84', '#f2f2f2']
 
-        st.bar_chart(data=value_counts, x='Count', y='Value', color='#FF7F7F', width=150, height=400, use_container_width=True)
+      fig = px.pie(value_counts, values='Comptage', names=custom_labels, color_discrete_sequence=custom_colors)
+      fig.update_layout(height=250, margin=dict(l=5, r=5, t=5, b=5), autosize=False)
 
-        
-    st.write(f"**Duration Variable Distribution**")
+      st.plotly_chart(fig, width=150, height=250, use_container_width=True)
 
-    st.area_chart(data = df, x = None, y = 'duration', color='#FF7F7F', width=150, height=400, use_container_width=True)
-    st.line_chart(data = df, x = None, y = 'co2_emission', color='#000000', width=150, height=400, use_container_width=True)
+    with col2:
+      
+      st.write(f"**Duration Variable Distribution**")
+      
+      st.area_chart(data = df, x = None, y = 'duration', color='#FF7F7F', width=150, height=250, use_container_width=True)
+
+
 
     runners = np.where(len(df['labels'])>0).apply(lambda x: x.split('-'))[0]
     
@@ -94,3 +111,5 @@ if selected_option:
     sns.barplot(x=df['labels'], y='Category', data=df, ax=ax)
     ax.set_title('Horizontal Bar Plot Example')
     st.pyplot(fig)
+
+    st.aggrid(df)
