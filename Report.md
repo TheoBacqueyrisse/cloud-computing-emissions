@@ -27,9 +27,73 @@ In this project, we develop a solution to estimate the carbon emissions from a G
 
 ## GitHub API
 
+### Collect the Worflow runs from a repository
+
 The cloud computing emissions for a project hosted on GitHub come from the workflows of changes made to this GitHub repository. These workflows can be found in the *GitHub Actions* tab of an **open-source** repository. If the chosen repository is working with Continuous Integration, a list of runs will be displayed describing what are the changes that were made to the repository, ranked by dates of updates.
 
 The first process to be created is the collection of these workflows in Python, which can be done by using the GitHub Rest API, that enable us to collect various data from GitHub. This collection needs a GitHub token giving access to the workflow runs of an open-source repository. Such a token can be created by any GitHub user in his *Developer Settings*. 
+
+First of all, in order to collect the runs for a given repository, we have to use the *user_name* and the *name_repo* of the repository, as well as define our GitHub token value : 
+
+Here is an example if choosing to collect the runs from the Pandas repository.
+
+```python
+username = "pandas-dev"
+name_repo = "pandas"
+token = "************************"
+```
+
+Using the GitHub Rest API, **only 100 runs can be collected per API call**. This is why we defined our process using two functions :
+
+- First, we coded a function to obtain 100 runs from a repository. Since the runs are organized by page, we use a parameter $page_number$ to be given in the function call. Then, by displaying 100 runs by page, we collect the runs of the given $page_number$. Here is the python code for this function :
+
+
+```python
+def get_workflows_from_repo(token, user_name, name_repo, page_nb):
+
+  url = f'https://api.github.com/repos/{user_name}/{name_repo}/actions/runs?per_page=100&page={page_nb}'
+
+  cmd = 'curl -G -H f"Authorization: token {token_git}" {url}'
+  os.system(cmd.format(token_git = token, url = url))
+
+  headers = {'Authorization': f'token {token}'}
+  response = requests.get(url, headers=headers)
+
+  if response.status_code == 200:
+      workflows_data = response.json()
+  else:
+      print(f"Échec de la requête avec le code d'état {response.status_code}")
+
+  return pd.DataFrame(workflows_data['workflow_runs'])
+```
+
+This function first define the url where to recover the runs from. We see that we set here the parameter *per_page=100* and the *page = page_nb*. Then, we execute a command line, which connects to the GitHub Rest API with our GitHub token, and recovers the dataframe located at the specified url with a *requests.get*. The obtained data is in json format, and we return it in form of a Pandas dataframe for the second function.
+
+- Then, using this first function, we coded another function that calls the first function for every page number until the first empty page of runs, so when the last run has been collected. The function thus sends a Pandas dataframe at each API call composed of 100 rows / runs, and this dataframe is concatenated with a general Pandas dataframe at each step. This process can take a long time for heavy repositories. Indeed, we for example collected the runs for the *Numpy* repository composed of around 100,000 runs, and the function took around 4 hours to run in colab. A lighter repository, *Tidyverse*, took around 5 minutes to obtain. Here is the code we used :
+
+```python
+def get_all_workflows_from_repo(token, username, name_repo):
+
+  df_final = pd.DataFrame()
+  page_nb = 1
+  while True:
+    df = get_workflows_from_repo(token, username, name_repo, page_nb)
+
+    if df.empty :
+      break
+
+    page_nb += 1
+    df_final = pd.concat([df_final, df], axis = 0)
+
+  return df_final
+```
+```python
+df = get_all_workflows_from_repo(token, username, name_repo)
+```
+
+At the end of this function, we added an option to send this dataset containing all the runs from the chosen repository to our [Google Drive file](https://drive.google.com/drive/folders/16rD7bP4xZZ5GKvw-5t8xnh3eD2T3TxSt).
+
+This file will be used for our later Streamlit application, and it is useful to save our file to avoid re-running this piece of code.
 
 ## Climatiq API
 
