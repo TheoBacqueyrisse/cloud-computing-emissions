@@ -93,7 +93,19 @@ df = get_all_workflows_from_repo(token, username, name_repo)
 
 This is how the dataset obtained looks like for the *Pandas* repository: 
 
-**SCREEN**
+<p>
+<img src="images/pandas_runs.png" alt="Alt text">
+</p>
+
+This dataset contains :
+
+- The run_id to identify the different runs 
+- The event of the run (can be a pull request for example)
+- The duration of the update
+- The result of the modification
+- Branches information as the modification can have been testes in a sub-branch before being pushed on the main branch
+- Other information
+
 
 At the end of this function, we added an option to send this dataset containing all the runs from the chosen repository to our [Google Drive file](https://drive.google.com/drive/folders/16rD7bP4xZZ5GKvw-5t8xnh3eD2T3TxSt).
 
@@ -146,7 +158,23 @@ Unfortunately, both approaches failed for big repositories, due to memory issues
 
 For the *Tidyverse* on the contrary, we were able to recover the jobs for the mearly 350 runs in the repository. Here is what the obtained dataset looks like : 
 
+<p>
+<img src="images/tidyverse_wo_co2.png" alt="Alt text">
+</p>
 
+This data contains information on :
+
+- The *run_id* related to the job
+- The git branch on which the change is being made
+- Details on the job
+- The status of the specific change of the job, that is completed or not 
+- The success (or not) of the update 
+- The duration of the update 
+- The runners from which the update comes from, so the operating system of the developer that started the change (Ubuntu, Windows, macOS)
+- Other information are provided
+
+
+In fact, for carbon emission estimations, the duration of the Jobs or Runs is what we are most interested in, and additional information will help us to understand the details of these emissions.
 
 ## Climatiq API
 
