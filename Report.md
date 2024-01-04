@@ -91,9 +91,62 @@ def get_all_workflows_from_repo(token, username, name_repo):
 df = get_all_workflows_from_repo(token, username, name_repo)
 ```
 
+This is how the dataset obtained looks like for the *Pandas* repository: 
+
+**SCREEN**
+
 At the end of this function, we added an option to send this dataset containing all the runs from the chosen repository to our [Google Drive file](https://drive.google.com/drive/folders/16rD7bP4xZZ5GKvw-5t8xnh3eD2T3TxSt).
 
 This file will be used for our later Streamlit application, and it is useful to save our file to avoid re-running this piece of code.
+
+### Collect the Jobs that were performed in each Run
+
+The next step for our estimation was to try to go deeper into the tasks that are performed during each run. In GitHub, these tasks are called Jobs, and detail the different steps in a Run that brings a change to a given repository. The jobs are available for recovery using the GitHub Rest API again, using a similar process than for the runs. 
+
+However, we did not find a way to recover the jobs using a batched API call. This means that our current method is performing an API call for each of the runs in a repository. So when working with *Numpy* for example, we would have to make more than 100,000 API calls to recover the jobs. When trying to do so, we faced a computational issue making the jobs recovery very hard for big repositories. 
+
+This is the function that we used for our attempt : 
+
+```python
+def get_jobs_from_run(token, username, name_repo, df_runs):
+
+  df_jobs = pd.DataFrame()
+
+  for i in df_runs['id']:
+
+    url = f'https://api.github.com/repos/{username}/{name_repo}/actions/runs/{i}/jobs'
+
+    cmd = f'curl -L \
+      -H "Accept: application/vnd.github+json" \
+      -H f"Authorization: Bearer {token}" \
+      -H "X-GitHub-Api-Version: 2022-11-28" \
+      {url}'
+
+    os.system(cmd)
+
+    headers = {'Authorization': f'token {token}'}
+    response = requests.get(url, headers=headers)
+
+    if response.status_code == 200:
+        run_id_jobs = response.json()
+    else:
+        print(f"Échec de la requête avec le code d'état {response.status_code}")
+        continue
+
+    df_jobs = pd.concat([df_jobs, pd.DataFrame(run_id_jobs['jobs'])], axis = 0)
+  return df_jobs
+```
+We tried two different approaches with this method : 
+
+- First, we tried to recover all the jobs at once by just running the function.
+
+- Then, we tried to perform batches of recovery using slices of indexes of the datasets containing the runs.
+
+Unfortunately, both approaches failed for big repositories, due to memory issues or API calls limitaition.
+
+For the *Tidyverse* on the contrary, we were able to recover the jobs for the mearly 350 runs in the repository. Here is what the obtained dataset looks like : 
+
+
 
 ## Climatiq API
 
