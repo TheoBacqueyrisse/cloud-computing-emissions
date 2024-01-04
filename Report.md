@@ -148,13 +148,15 @@ def get_jobs_from_run(token, username, name_repo, df_runs):
     df_jobs = pd.concat([df_jobs, pd.DataFrame(run_id_jobs['jobs'])], axis = 0)
   return df_jobs
 ```
+This function first defines the url to get the jobs from. We see that in this parameter we have to specify the *run_id* to be analyzed, which is responsible for the fact that we can recover jobs from only one run with 1 API call. Then, it executes a command line to connect to GitHub Rest using the GitHub token, and collecting the searched dataset from the url in form of a json dataframe that we convert into a pandas dataframe. We then concatenate the obtained data with a general dataset at each step. 
+
 We tried two different approaches with this method : 
 
 - First, we tried to recover all the jobs at once by just running the function.
 
 - Then, we tried to perform batches of recovery using slices of indexes of the datasets containing the runs.
 
-Unfortunately, both approaches failed for big repositories, due to memory issues or API calls limitaition.
+Unfortunately, both approaches failed for big repositories, due to memory issues or API calls limitaition. This process may be possible to optimize, first by making sort each step does not perform a concatenation of datasets that use a big amount of memory in the process. This optimization may be part of a next step for this project.
 
 For the *Tidyverse* on the contrary, we were able to recover the jobs for the mearly 350 runs in the repository. Here is what the obtained dataset looks like : 
 
@@ -172,7 +174,6 @@ This data contains information on :
 - The duration of the update 
 - The runners from which the update comes from, so the operating system of the developer that started the change (Ubuntu, Windows, macOS)
 - Other information are provided
-
 
 In fact, for carbon emission estimations, the duration of the Jobs or Runs is what we are most interested in, and additional information will help us to understand the details of these emissions.
 
