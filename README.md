@@ -1,6 +1,6 @@
 # Predicting Carbon Emissions of Cloud Computing
 
-The goal of this project is to predict the carbon emissions of GitHub cloud computing.
+The goal of this project is to predict the carbon emissions of GitHub cloud computing. You can our documentation on our code in our [Wiki](../../wiki/)
 
 ---
 
@@ -12,4 +12,12 @@ This project is for the [Data Mining](https://www.tse-fr.eu/sites/default/files/
 
 ## Table of Contents
 
+1. [Our Project](#our-project)
+2. [Using our Code](#using-our-code)
+3. [Repository Layout](#repository-layout)
 
+## Our Project
+
+## Using our Code
+
+## Repository Layout
