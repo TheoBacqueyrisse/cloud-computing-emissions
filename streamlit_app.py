@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import seaborn as sns
 import streamlit as st
+from st_aggrid import AgGrid
 
 custom_css = """
 .css-1l02zno {
@@ -22,7 +23,7 @@ st.markdown("<hr>", unsafe_allow_html=True)
 
 # SideBar Configuration
 
-st.sidebar.image('images_app/TSE_Logo_2019.png', width=300)
+st.sidebar.image('images/TSE_Logo_2019.png', width=300)
 st.sidebar.markdown("""
 Benjamin Rocheteau - Théo Bacqueyrisse
 """)
@@ -37,10 +38,10 @@ selected_option = st.sidebar.selectbox('Sélectionnez une option', options)
 
 if selected_option:
 
-  st.markdown(f"## Chosen Repository : {selected_option}", unsafe_allow_html=True)
-
-
   if selected_option == 'Tidyverse':
+    
+    st.markdown(f"## Chosen Repository : {selected_option}", unsafe_allow_html=True)
+
     # Load the Data
     df = pd.read_csv('/content/drive/MyDrive/Data Mining Data/tidyverse_data_with_Co2.csv')
 
@@ -102,14 +103,4 @@ if selected_option:
       
       st.area_chart(data = df, x = None, y = 'duration', color='#FF7F7F', width=150, height=250, use_container_width=True)
 
-
-
-    runners = np.where(len(df['labels'])>0).apply(lambda x: x.split('-'))[0]
-    
-    fig, ax = plt.subplots()
-    sns.set(style="whitegrid")
-    sns.barplot(x=df['labels'], y='Category', data=df, ax=ax)
-    ax.set_title('Horizontal Bar Plot Example')
-    st.pyplot(fig)
-
-    st.aggrid(df)
+    df.head()
