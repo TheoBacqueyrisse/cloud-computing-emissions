@@ -6,15 +6,12 @@ import seaborn as sns
 import streamlit as st
 
 st.set_page_config(layout="wide")
-
 custom_css = """
 .css-1l02zno {
     padding-left: 15px !important;
     padding-right: 15px !important;
 }
 """
-
-# Inject custom CSS
 st.markdown(f'<style>{custom_css}</style>', unsafe_allow_html=True)
 
 st.title("Carbon Emissions from Cloud Computing")
@@ -22,16 +19,10 @@ st.write("Hello, this is a Streamlit app for our Data Mining Project for our Mas
 
 st.markdown("<hr>", unsafe_allow_html=True)
 
-# SideBar Configuration
-
+# SideBar
 st.sidebar.image('images/TSE_Logo_2019.png', width=300)
-st.sidebar.markdown("""
-Benjamin Rocheteau - Théo Bacqueyrisse
-""")
-
-st.sidebar.markdown("""
-**Choose a GitHub Repository :**
-""")
+st.sidebar.markdown("""Benjamin Rocheteau - Théo Bacqueyrisse""")
+st.sidebar.markdown("""**Choose a GitHub Repository :**""")
 
 options = ['Tidyverse', 'Numpy', 'Pandas']
 selected_option = st.sidebar.selectbox('Sélectionnez une option', options)
@@ -46,6 +37,7 @@ if selected_option:
     # Load the Data
     df = pd.read_csv('/content/drive/MyDrive/Data Mining Data/tidyverse_data_with_Co2.csv')
     df = df.iloc[::-1].reset_index()
+      
     # Parameters to plot
     sum_em_repo = df['co2_emission'].sum()
     sum_em_repo = "{:.3f}".format(sum_em_repo)
@@ -77,8 +69,8 @@ if selected_option:
     count_jobs.columns = ['Valeur', 'Comptage']
 
     df['duration'] = 60*df['duration']
-
-
+      
+    # Content
     st.markdown(f"<h3>Global KPI :</h3>", unsafe_allow_html=True)
     st.markdown(f"""
       - Total Co2 Emissions: {sum_em_repo} KgEqCO2
@@ -114,7 +106,6 @@ if selected_option:
         color='labels',
       )
 
-
     with col2:
 
       st.markdown("<h3 style='text-align: center;'>Job Performed Distribution</h3>", unsafe_allow_html=True)
@@ -135,9 +126,7 @@ if selected_option:
 
     st.markdown("<h3 style='text-align: center;'>Sample of obtained Estimations</h3>", unsafe_allow_html=True)
     st.dataframe(df[['id', 'run_id', 'run_url', 'labels', 'workflow_name', 'duration', 'co2_emission', 'unit']].sort_values(by = 'co2_emission', ascending = False).head())
-
-
-
+      
 
 
   if selected_option == 'Numpy':
@@ -173,7 +162,7 @@ if selected_option:
     value_counts_conclusion = df_final_status['conclusion'].value_counts().reset_index()
     value_counts_conclusion.columns = ['Valeur', 'Comptage']
 
-
+    # Content
     st.markdown(f"<h3>Global KPI :</h3>", unsafe_allow_html=True)
     st.markdown(f"""
       - Total Co2 Emissions: {sum_em_repo} KgEqCO2
@@ -210,9 +199,6 @@ if selected_option:
       st.markdown("Mean Carbon Emissions by Event of Run", unsafe_allow_html=True)
       st.dataframe(df.groupby('event')['co2_emission'].mean())
 
-
-
-
     with col2:
 
       st.markdown("<h3 style='text-align: center;'>Run Conclusion Status</h3>", unsafe_allow_html=True)
@@ -237,6 +223,7 @@ if selected_option:
     st.markdown("<h3 style='text-align: center;'>Sample of obtained Estimations</h3>", unsafe_allow_html=True)
     st.dataframe(df[['id', 'event', 'conclusion', 'workflow_url', 'duration', 'co2_emission', 'unit']].head())
 
+    
 
   if selected_option == 'Pandas':
     
@@ -271,7 +258,7 @@ if selected_option:
     value_counts_conclusion = df_final_status['conclusion'].value_counts().reset_index()
     value_counts_conclusion.columns = ['Valeur', 'Comptage']
 
-
+    # Content
     st.markdown(f"<h3>Global KPI :</h3>", unsafe_allow_html=True)
     st.markdown(f"""
       - Total Co2 Emissions: {sum_em_repo} KgEqCO2
@@ -307,9 +294,6 @@ if selected_option:
 
       st.markdown("Mean Carbon Emissions by Event of Run", unsafe_allow_html=True)
       st.dataframe(df.groupby('event')['co2_emission'].mean())
-
-
-
 
     with col2:
 
