@@ -231,9 +231,32 @@ The script adds two columns to our dataset : `co2_emission` and `unit`, which gi
 
 We thought that an appropriate way to present the results we obtained was through a Streamlit app, that would give insights to the emissions of some repositories of various sizes for which we estimated the emisssions. Streamlit is an intuitive tool that allows the user to vizualise a lot of information interactively. 
 
-In this app, we let the user choose the repository he wants to visualize results from. However, we only included the repositories for which we have data stored in our Drive file, as recovering data for any repository live while using the app would be very long to run, and thus troublesome. The user can thus choose between our 3 examples repositories (Numpy, Pandas, and Tidyverse) and visualize general KPI on the repository emissions from cloud computing, as well as plots to illustrate the temmporal aspects of emissions, or the other factors related to them such as the runner of the update (Windows, macOS, Ubuntu). Finally, we display a sample of the data we collected for the user to see what it looks like. Here is an example of this app : 
+In this app, we let the user choose the repository he wants to visualize results from. However, we only included the repositories for which we have data stored in our Drive file, as recovering data for any repository live while using the app would be very long to run, and thus troublesome. The user can thus choose between our 3 examples repositories (Numpy, Pandas, and Tidyverse) and visualize general KPI on the repository emissions from cloud computing, as well as plots to illustrate the temmporal aspects of emissions, or the other factors related to them such as the runner of the update (Windows, macOS, Ubuntu). We also plot the carbon emissions in function of these diverse factors to give insights on which factors cause the highest emissions.
 
-**SCREEN**
+Finally, we display a sample of the data we collected for the user to see what it looks like. Here is an example of this app : 
+
+<div style="text-align:center;">
+    <img src="images/app_1.png" alt="Description de l'image" />
+</div>
+<div style="text-align:center;">
+    <img src="images/app_2.png" alt="Description de l'image" />
+</div>
+
+This example illustrates the results we obtained with Tidyverse. We see for example that all the changes using Continuous Integration produced approximately 0.012 kg of carbon dioxyde. Bu we see other interesting results :
+
+- It appears that the highest emissions are done with an Ubuntu runner, though some lower emissions are also with an Ubuntu runner. However, runs with Windows tend to produce a stable amount of Carbon. It could be worth to check deeper insights to check if there are other explanations, or if the runner is truly a determinant for the carbon emissions 
+
+- Also, we see that the tasks *R-CMD-Check* are the one producing the most carbon dioxyde, whereas *pkgdown*, *test_coverage* or *pages build and development* tasks produce very low amount of carbon.
+
+We also found interesting features with our Numpy data, even without the Jobs of each runs being collected. Note that the app page for Numpy is a bit long to load due to data recovery from drive being of 1.19 Go.
+
+- First, the Continuous Integration in this rpeository produced from our estimations around 10kg of carbon dioxyde.
+
+- Then, the *workflow_dispatch* and *schedule* are the tasks that have the highest mean emissions with 0.0007 and 0.0005 KgEqCo2 repectively.
+
+- Finally, the runs that failed produced in average 3 times the amount of carbon dioxyde than successful or even cancelled runs. This result is crucial to us. Indeed, it shows that to limit a repository carbon footprint, a major task for developpers is to be confident that the integration will not fail, or at least monitor it to stop it soon if a fail is suspected. In fact even though failed runs represent around 5% of runs, the carbon emissions coming from failure are more than 1.5 kg of carbon, so around 15% of emissions. 
+
+
 
 ## Shortcomings and Future Initiatives
 
