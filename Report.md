@@ -239,7 +239,7 @@ In this app, we let the user choose the repository he wants to visualize results
 
 Our project has a lot of room for growth, which we feel the need to address. 
 
-The first potential direction of growth is the extraordinary amount of time our code takes to run. For any repository bigger than tiny, the code takes hours to run, and quite often crashes due to a variety of issues: lack of memory, connection to the API being severed, and more. Some of these problems might be solved by the use of big data and parallelization techniques, which could possibly a future initiative for this project. 
+The first potential direction of growth is the extraordinary amount of time our code takes to run. For any repository bigger than tiny, the code takes hours to run, and quite often crashes due to a variety of issues: lack of memory, connection to the API being severed, and more. This leads our code to not always work, and often after hours of runtime. Some of these problems might be solved by the use of big data and parallelization techniques, which could possibly a future initiative for this project. 
 
 The second direction of growth is on the analytical side of things: looking at the correlation between types of action and their emissions, and the code which comprises each type of action. If we can identify exactly which parts of CI/CD are the most energy intensive, we can have a better notion of how to reform the pipeline to be more environmentally friendly. 
 
