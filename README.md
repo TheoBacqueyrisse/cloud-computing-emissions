@@ -14,7 +14,6 @@ This project is for the [Data Mining](https://www.tse-fr.eu/sites/default/files/
 
 1. [Our Project](#our-project)
 2. [Using our Code](#using-our-code)
-3. [Repository Layout](#repository-layout)
 
 ## Our Project
 
@@ -31,10 +30,12 @@ In order to use the first part of our code, you need the following things:
 - A GitHub Personal Access Token
 - A Climatiq API token
 
-  And in terms of the functions themselves, you can find documentation for the functions and how they are meant to be used in our [Wiki](../../wiki/).
+And in terms of the functions themselves, you can find documentation for the functions and how they are meant to be used in our [Wiki](../../wiki/).
 
-  As to the second part of our code, you just need to run the code in `Streamlit_App.ipynb` to launch the app. 
+We recommend using our notebook `DataMining_Project.ipynb` to pull the data from GitHub and get the Climatiq estimations. 
 
-## Repository Layout
+As to the second part of our code, you just need to run the code in `Streamlit_App.ipynb` to launch the app. 
+
+
 
 
