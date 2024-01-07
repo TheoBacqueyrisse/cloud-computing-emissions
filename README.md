@@ -26,9 +26,8 @@ Our code is in two parts: the first part gets the data on GitHub Actions, and us
 
 ## Using our Code
 
-In order to use the first part of our code, you need 3 things: 
+In order to use the first part of our code, you need the following things: 
 
-- The username to your github account
 - A GitHub Personal Access Token
 - A Climatiq API token
 
