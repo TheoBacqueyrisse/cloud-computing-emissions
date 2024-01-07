@@ -28,7 +28,8 @@ Our code is in two parts: the first part gets the data on GitHub Actions, and us
 In order to use the first part of our code, you need the following things: 
 
 - A GitHub Personal Access Token
-- A Climatiq API token
+- A Climatiq API token, with access to the Cloud Computing feature
+- Link to our [Drive File](https://drive.google.com/drive/folders/16rD7bP4xZZ5GKvw-5t8xnh3eD2T3TxSt?usp=sharing) to access saved Data / Upload new data
 
 And in terms of the functions themselves, you can find documentation for the functions and how they are meant to be used in our [Wiki](../../wiki/).
 
