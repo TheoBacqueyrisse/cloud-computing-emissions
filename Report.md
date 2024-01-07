@@ -254,7 +254,11 @@ We also found interesting features with our Numpy data, even without the Jobs of
 
 - Then, the *workflow_dispatch* and *schedule* are the tasks that have the highest mean emissions with 0.0007 and 0.0005 KgEqCo2 repectively.
 
-- Finally, the runs that failed produced in average 3 times the amount of carbon dioxyde than successful or even cancelled runs. This result is crucial to us. Indeed, it shows that to limit a repository carbon footprint, a major task for developpers is to be confident that the integration will not fail, or at least monitor it to stop it soon if a fail is suspected. In fact even though failed runs represent around 5% of runs, the carbon emissions coming from failure are more than 1.5 kg of carbon, so around 15% of emissions. 
+- Finally, the runs that failed produced in average 3 times the amount of carbon dioxyde than successful or even cancelled runs. This result is crucial to us. Indeed, it shows that to limit a repository carbon footprint, a major task for developpers is to be confident that the integration will not fail, or at least monitor it to stop it soon if a fail is suspected. In fact even though failed runs represent around 5% of runs, the carbon emissions coming from failure are more than 1.5 kg of carbon, so around 15% of emissions.
+
+- It is also important to note that this result is not always true. For the Pandas repository, failed runs are not a big part of the emissions. Also, since we took only the last 50,000 runs from the repository, and that these runs emitted more than 15 kg of carbon dioxyde, we can suppose that the number of runs is not entirely responsible for the total emissions of a repository, meaning that the tasks performed are of great importance for them.
+
+- We also constated that even if different repositories have similar types of tasks (like Pull Requests, Push, ...), the duration of these tasks may vary greatly, as Pandas tasks are in average three times longer than Numpy tasks for example. Maybe it is related to the magnitude of the change that is done on the repository, suggesting again that it would need to go deeper inside the performed tasks.
 
 
 
