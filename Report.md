@@ -8,6 +8,7 @@ Project 10: Continuous Integration Carbon Footprint - Théo Bacqueyrisse & Benja
 3. [Climatiq API](#climatiq-api)
 4. [The Code](#the-code)
 5. [The App](#the-app)
+6. [Shortcomings and Future Initiatives](#shortcomings-and-future-initiatives)
 
 ## Introduction
 
@@ -234,4 +235,12 @@ In this app, we let the user choose the repository he wants to visualize results
 
 **SCREEN**
 
+## Shortcomings and Future Initiatives
 
+Our project has a lot of room for growth, which we feel the need to address. 
+
+The first potential direction of growth is the extraordinary amount of time our code takes to run. For any repository bigger than tiny, the code takes hours to run, and quite often crashes due to a variety of issues: lack of memory, connection to the API being severed, and more. Some of these problems might be solved by the use of big data and parallelization techniques, which could possibly a future initiative for this project. 
+
+The second direction of growth is on the analytical side of things: looking at the correlation between types of action and their emissions, and the code which comprises each type of action. If we can identify exactly which parts of CI/CD are the most energy intensive, we can have a better notion of how to reform the pipeline to be more environmentally friendly. 
+
+The third direction of growth is on the practical side of things. In our folder `1_Functions`, there is an attempt to make a version of our code which can be run on it's own, ie the user executes `setup.py`, and can then immediately start calling our functions and using them either in the Python console, or in their own scripts. Unfortunately, when we test the code in `test_code.py`, we get scope issues involving our packages which we did not have time to resolve. 
