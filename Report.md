@@ -95,7 +95,7 @@ df = get_all_workflows_from_repo(token, username, name_repo)
 This is how the dataset obtained looks like for the *Pandas* repository: 
 
 <p>
-<img src="images/pandas_runs.png" alt="Alt text">
+<img src="assets/pandas_runs.png" alt="Alt text">
 </p>
 
 This dataset contains :
@@ -162,7 +162,7 @@ Unfortunately, both approaches failed for big repositories, due to memory issues
 For *Tidyverse*, however, we were able to recover the jobs for the mearly 350 runs in the repository. Here is what the obtained dataset looks like : 
 
 <p>
-<img src="images/tidyverse_wo_co2.png" alt="Alt text">
+<img src="assets/tidyverse_wo_co2.png" alt="Alt text">
 </p>
 
 This data contains information on :
@@ -236,10 +236,10 @@ In this app, we let the user choose the repository he wants to visualize results
 Finally, we display a sample of the data we collected for the user to see what it looks like. Here is an example of this app : 
 
 <div style="text-align:center;">
-    <img src="images/app_1.png" alt="Description de l'image" />
+    <img src="assets/app_1.png" alt="Description de l'image" />
 </div>
 <div style="text-align:center;">
-    <img src="images/app_2.png" alt="Description de l'image" />
+    <img src="assets/app_2.png" alt="Description de l'image" />
 </div>
 
 This example illustrates the results we obtained with Tidyverse. We see for example that all the changes using Continuous Integration produced approximately 0.012 kg of carbon dioxyde. Bu we see other interesting results :

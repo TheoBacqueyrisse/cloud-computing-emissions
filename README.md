@@ -1,8 +1,9 @@
-<p align="center">
-  <img src="https://github.com/ben-rocheteau/cloud_computing_emissions/blob/main/images/leaf.png?raw=true" width="250">
-</p>
 
 # Predicting Carbon Emissions of Cloud Computing
+
+<p align="center">
+  <img src="assets/cloud_computing_banner.png" width="1500">
+</p>
 
 The goal of this project is to predict the carbon emissions of GitHub cloud computing. You can our documentation on our code and methodology in our [Wiki](../../wiki/).
 
