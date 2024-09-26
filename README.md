@@ -40,4 +40,4 @@ And in terms of the functions themselves, you can find documentation for the fun
 
 We recommend using our notebook `DataMining_Project.ipynb` to pull the data from GitHub and get the Climatiq estimations. 
 
-As to the second part of our code, you just need to run the code in `Streamlit_App.ipynb` to launch the app. You will have to copy an endpoint and paste it in a localtunnel created by the next cell. This was done to be able to run the app in a colab notebook to have access to Drive data.
+As to the second part of our code, you just need to run the script 'streamlit_app.py' with Streamlit to launch the app.
